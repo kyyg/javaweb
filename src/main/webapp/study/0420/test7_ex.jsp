@@ -63,19 +63,20 @@
     	}
     	
     	for(let i=0; i<products.length; i++) {
+    		console.log("products",products[i]);
     		if(products[i].value == "") {
     			alert("상품명을 입력하세요");
-    			document.getElementById("product"+i).focus();
+    			products[i].focus();
     			return false;
     		}
     		else if(prices[i].value == "") {
     			alert("가격을 입력하세요");
-    			document.getElementById("price"+i).focus();
+    			prices[i].focus();
     			return false;
     		}
     		else if(sus[i].value == "") {
     			alert("수량을 입력하세요");
-    			document.getElementById("su"+i).focus();
+    			sus[i].focus();
     			return false;
     		}
     	}
@@ -114,9 +115,9 @@
         <td colspan="4" class="text-center">
           <table class="table table-striped">
             <tr>
-              <td>0.<input type="text" name="product" id="product0" value="선풍기" /></td>
-              <td><input type="number" name="price" id="price0" value="60000" style="width:100px" /></td>
-              <td><input type="number" name="su" id="su0" value="2" style="width:60px" /></td>
+              <td>0.<input type="text" name="product" id="product0" value="냉장고" /></td>
+              <td><input type="number" name="price" id="price0" value="50000" style="width:100px" /></td>
+              <td><input type="number" name="su" id="su0" value="1" style="width:60px" /></td>
               <td width="100px"></td>
             </tr>
           </table>
