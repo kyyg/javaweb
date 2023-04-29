@@ -232,5 +232,27 @@ public class LoginDAO {
 		}
 		return res;
 	}
+
+	// 아이디와 성명을 받아 일치하면 비밀번호 알려주기
+	public LoginVO getFindPwd(String mid, String name) {
+		vo = new LoginVO();
+		try {
+		sql="select * from login where mid=? and name=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, mid);
+		pstmt.setString(2, name);
+		rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo.setMid(rs.getString("mid"));
+				vo.setPwd(rs.getString("pwd"));
+				vo.setName(rs.getString("name"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
 	
 }
