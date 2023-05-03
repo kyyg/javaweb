@@ -14,13 +14,13 @@
   <!-- The slideshow -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="${ctp}/images/1.jpg" width="100%" height="300px">
+      <img src="${ctp}/images/1.jpg" width="100%" height="160px">
     </div>
     <div class="carousel-item">
-      <img src="${ctp}/images/2.jpg" width="100%" height="300px">
+      <img src="${ctp}/images/2.jpg" width="100%" height="160px">
     </div>
     <div class="carousel-item">
-      <img src="${ctp}/images/3.jpg" width="100%" height="300px">
+      <img src="${ctp}/images/3.jpg" width="100%" height="160px">
     </div>
   </div>
   

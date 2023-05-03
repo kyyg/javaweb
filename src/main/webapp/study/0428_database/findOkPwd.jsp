@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -25,7 +26,14 @@
 		</tr>	
 		<tr>
 			<td>비밀번호</td>
-			<td>${vo.pwd}</td>
+			<td>
+			<c:forEach var="i" begin="0" end="${fn:length(vo.pwd)-1}">
+				<c:if test="${(i % 2) == 0}">${fn: substring(vo.pwd,i,i+1)}</c:if>              
+	      <c:if test="${(i % 2) != 0}">
+	      	${fn:replace(fn:substring(vo.pwd,i,i+1),fn:substring(vo.pwd,i,i+1), '*')}
+	      </c:if>
+			</c:forEach>
+			</td>
 		</tr>	
 		<tr>
 			<td colspan="2"><a href="${ctp}/study/0428_database/login.jsp" class="btn btn-info form-control">로그인</a></td>

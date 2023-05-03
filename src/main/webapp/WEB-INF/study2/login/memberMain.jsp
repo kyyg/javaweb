@@ -18,12 +18,12 @@
 	  temp += '<input type="text" name="mid" id="mid" class="mr-3" />';
 	  temp += '<input type="button" value="아이디 검색" onclick="idCheck()" class="btn btn-secondary"/>';
 	  
-	  demo.innerHTML = temp;
+	  demo2.innerHTML = temp;
   }
   
   function idCheck(){
 	  let mid = document.getElementById("mid").value;
-	  location.href = "${ctp}LoginSearch.kk?mid="+mid;
+	  location.href = "${ctp}/LoginSearch.re?mid="+mid;
   }
   
   </script>
@@ -43,12 +43,12 @@
   <div class="row">
   	<div class="col"></div>
     <div class="col-3"><button type="button" onclick="searchCheck()" class="btn btn-primary">개별조회</button></div>
-    <div class="col-2"><a href="${ctp}/database/List" class="btn btn-success">전체조회</a></div>
-    <div class="col-3"><a href="${ctp}/database/Logout" class="btn btn-danger">로그아웃</a></div>
+    <div class="col-2"><a href="${ctp}/List.re" class="btn btn-success">전체조회</a></div>
+    <div class="col-3"><a href="${ctp}/Logout.re" class="btn btn-danger">로그아웃</a></div>
   	<div class="col"></div>
   </div>
   <hr/>
-  <div id="demo"></div>
+  <div id="demo2"></div>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />
