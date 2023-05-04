@@ -85,9 +85,9 @@
 	  <table class="table table-bordered mt-0">
 	    <tr>
 	      <th style="20%">성명</th>
-	      <td style="25%">${vo.name}</td>
+	      <td style="30%">${vo.name}</td>
 	      <th style="20%">방문일자</th>
-	      <td style="35%">${fn:substring(vo.visitDate,0,19)}</td>
+	      <td style="30%">${fn:substring(vo.visitDate,0,19)}</td>
 	    </tr>
 	    <tr>
 	      <th>메일주소</th>

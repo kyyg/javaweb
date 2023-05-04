@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -25,11 +26,11 @@
 <div class="container">
 	<h2 class="text-center">게 시 판 리 스 트</h2>
 	<table class="table table-borderless">
-		<tr><td><a href="${ctp}/BoardInput.bo" class="btn btn-primary btn-sm mb-0 pt-0">글쓰기</a></td></tr>
-	</table>
-	<table class="table table-borderless mb-0 pt-0">
-    <tr>
-      <td>
+		<tr>
+		<td>
+			<a href="${ctp}/BoardInput.bo" class="btn btn-primary btn-sm mb-0 pt-0">글쓰기</a>
+		</td>
+		  <td class="text-right">
         <select name="pageSize" id="pageSize" onchange="pageCheck()">
           <option <c:if test="${pageSize == 3}">selected</c:if>>3</option>
           <option <c:if test="${pageSize == 5}">selected</c:if>>5</option>
@@ -38,20 +39,8 @@
           <option <c:if test="${pageSize == 20}">selected</c:if>>20</option>
         </select> 건
       </td>
-      <td class="text-right">
-        <!-- 첫페이지 / 이전페이지 / (현재페이지번호/총페이지수) / 다음페이지 / 마지막페이지 -->
-        <c:if test="${pag > 1}">
-          <a href="${ctp}BoardList.bo?pageSize=${pageSize}&pag=1" title="첫페이지로">◁◁</a>
-          <a href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${pag-1}" title="이전페이지로">◀</a>
-        </c:if>
-        ${pag}/${totPage}
-        <c:if test="${pag < totPage}">
-          <a href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${pag+1}" title="다음페이지로">▶</a>
-          <a href="${ctp}/BoardList.bo?pageSize=${pageSize}&pag=${totPage}" title="마지막페이지로">▷▷</a>
-        </c:if>
-      </td>
-    </tr>
-  </table>		
+		</tr>
+
 	<table class="table table-hover text-center">
 		<tr class="table table-dark text-white">
 			<th>글번호</th>
@@ -64,9 +53,20 @@
 		<c:forEach var="vo" items="${vos}" varStatus="st">
 			<tr>
 				<td>${vo.idx}</td>
-				<td>${vo.title}</td>
+				<td class="text-left">
+					${vo.title}
+					<c:if test="${vo.hour_diff <= 24}"><img src="${ctp}/images/new.gif" /></c:if>
+				</td>
 				<td>${vo.nickName}</td>
-				<td>${vo.wDate}</td>
+				<td>
+					<!-- 1일(24시간) 이내는 시간만 표시, 이후는 날짜와 시간을 표시 -->
+					<!-- 단(24시간안에 만족하는 자료), 날짜가 오늘 날짜만 시간으로 표시하고, 어제 날짜는 날짜로 표시하시오. -->
+					<c:if test="${vo.hour_diff > 24}">${fn: substring(vo.wDate,0,10)}</c:if>
+					<c:if test="${vo.hour_diff <= 24}">
+						${vo.day_diff == 0 ? fn: substring(vo.wDate,11,19) : fn: substring(vo.wDate,0,16)}  
+					</c:if>
+		
+				</td>
 				<td>${vo.readNum}</td>
 				<td>${vo.good}</td>
 			</tr>
