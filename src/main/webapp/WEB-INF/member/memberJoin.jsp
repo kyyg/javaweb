@@ -10,6 +10,7 @@
 	<jsp:include page="/include/bs4.jsp" /> 
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="${ctp}/js/woo.js"></script>
+  <script src="${ctp}/js/fCheck.js"></script> 
 	<script>
 	'use strict';
 	
@@ -26,6 +27,19 @@
 		if(mid.trim() == ""){
 			alert("아이디를 입력하세요.");
 			myform.mid.focus();
+		}
+		else{
+			window.open(url,"nWin","width=580px,height=250px");
+		}
+	}
+	
+	function nickCheck(){
+		let nickName = myform.nickName.value;
+		let url = "${ctp}/MemberNickCheck.mem?nickName="+nickName;
+		
+		if(nickName.trim() == ""){
+			alert("닉네임을 입력하세요.");
+			myform.nickName.focus();
 		}
 		else{
 			window.open(url,"nWin","width=580px,height=250px");
@@ -48,6 +62,10 @@
     <div class="form-group">
       <label for="pwd">비밀번호 :</label>
       <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력하세요." name="pwd" required />
+    </div>
+    <div class="form-group">
+      <label for="pwd2">비밀번호 확인: </label>
+      <input type="password" class="form-control" id="pwd2" placeholder="위의 비밀번호와 똑같이 입력하세요." name="pwd2" required />
     </div>
     <div class="form-group">
       <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" value="닉네임 중복체크" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
@@ -213,7 +231,7 @@
     </div>
     <button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
     <button type="reset" class="btn btn-secondary">다시작성</button> &nbsp;
-    <button type="button" class="btn btn-secondary" onclick="">돌아가기</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='${ctp}/Memberlogin.mem';">돌아가기</button>
   </form>
 </div>
 <p><br/></p>
