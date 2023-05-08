@@ -1,23 +1,19 @@
-package member;
+package study2;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MemberPwdFindResCommand implements MemberInterface {
+public class UuidCommand implements StudyInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
+		UUID uid = UUID.randomUUID();
 		
-		MemberDAO dao = new MemberDAO();
-		
-		MemberVO vo = dao.getMemberMidCheck(mid);
-		
-		request.setAttribute("vo", vo);
+		request.setAttribute("uid",uid);
 		
 	}
 

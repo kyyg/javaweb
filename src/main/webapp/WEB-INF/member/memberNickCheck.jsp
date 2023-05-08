@@ -17,7 +17,7 @@
     	window.close();
     }
     
-    function NickCheck() {
+    function nickCheck() {
     	let nickName = childForm.nickName.value;
     	
     	if(nickName.trim() == "") {
@@ -35,7 +35,7 @@
 <div class="container">
   <h3>닉네임 체크폼</h3>
   <c:if test="${res == 1}">
-    <h4><font color="blue"><b>${mid}</b></font>닉네임은 사용 가능합니다.</h4>
+    <h4><font color="blue"><b>${nickName}</b></font>닉네임은 사용 가능합니다.</h4>
     <p><input type="button" value="창닫기" onclick="sendCheck()"/></p>
   </c:if>
   <c:if test="${res != 1}">
@@ -43,7 +43,7 @@
     <form name="childForm" method="post" action="${ctp}/MemberNickCheck.mem">
     	<p>
     	  <input type="text" name="nickName"/>
-    	  <input type="button" value="닉네임 재검색" onclick="NickCheck()"/>
+    	  <input type="button" value="닉네임재검색" onclick="nickCheck()"/>
     	</p>
     </form>
   </c:if>

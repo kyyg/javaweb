@@ -3,21 +3,21 @@ package member;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MemberIdFindResCommand implements MemberInterface {
+public class MemberLoginCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String name = request.getParameter("name")==null ? "" : request.getParameter("name");
+		Cookie[] cookies = request.getCookies();
 		
-		MemberDAO dao = new MemberDAO();
-		
-		MemberVO vo = dao.getFindId(name);
-		
-		request.setAttribute("vo", vo);
+		for(int i=0; i<cookies.length; i++) {
+			if(cookies[i].getName().equals("cMid")) {
+				request.setAttribute("mid", cookies[i].getValue());
+				break;
+			}
+		}
 	}
-
 }

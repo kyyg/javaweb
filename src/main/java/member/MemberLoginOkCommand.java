@@ -10,78 +10,78 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import conn.SecurityUtil;
+
 public class MemberLoginOkCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
+		String idSave = request.getParameter("idSave")==null ? "" : request.getParameter("idSave");
 		
 		MemberDAO dao = new MemberDAO();
 		
-		MemberVO vo = dao.getLoginCheck(mid, pwd);
-				
-		if(vo.getName() != null) {
-			
-			Date today = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String strToday = sdf.format(today);
-			
-			int todayCnt = vo.getTodayCnt();
-			int point = 0;
-			String lastDate = vo.getLastDate()==null ? "2023-05-01" : vo.getLastDate();
-			if(strToday.equals(lastDate.substring(0,10))) {
-				todayCnt++;
-				if(vo.getTodayCnt() < 5) point = vo.getPoint() + 10;
-				else point = vo.getPoint();
-			}
-			else {
-				todayCnt = 1;
-				point = vo.getPoint() + 10;
-			}
-			
-			// 변경된 사항을 update한다.
-			dao.setPointPlus(mid, point, todayCnt);
-			
-			// 변경된 사항을 다시 불러온다.
-			vo = dao.getLoginCheck(mid, pwd);			
-			
-			// 1.세션처리
-			HttpSession session = request.getSession();
-			session.setAttribute("sMid", mid);
-			session.setAttribute("sName", vo.getName());
-			session.setAttribute("sPoint", vo.getPoint());
-			session.setAttribute("sLastDate", lastDate);
-			session.setAttribute("sTodayCnt", vo.getTodayCnt());
-			
-			
-			// 2.쿠키에 아이디를 저장/해제 처리한다.
-			// 로그인시 아이디저장시킨다고 체크하면 쿠키에 아이디 저장하고, 그렇지 않으면 쿠키에서 아이디를 제거한다.
-			String idSave = request.getParameter("idSave")==null ? "off" : "on";
-			Cookie cookieMid = new Cookie("cMid", mid);
-			cookieMid.setPath("/");
-			if(idSave.equals("on")) {
-				cookieMid.setMaxAge(60*60*24*7);
-			}
-			else {
-				cookieMid.setMaxAge(0);
-			}
-			response.addCookie(cookieMid);
-			
-			
-			// 정상 로그인Ok이후에 모든 처리가 끝나면 memberMain.jsp로 보내준다.
-			request.setAttribute("msg", mid+"님 로그인 되었습니다.");
-			request.setAttribute("url", request.getContextPath()+"/MemberMain.mem");
+		MemberVO vo = dao.getMemberMidCheck(mid);
+		
+		if(vo.getSalt() == null) {
+			request.setAttribute("msg", "회원정보가 없습니다. \\n다시 입력하세요.");
+			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
+			return;
+		}
+		
+		String salt = vo.getSalt();
+		pwd = salt + pwd;
+		
+		SecurityUtil security = new SecurityUtil();
+		pwd = security.encryptSHA256(pwd);
+		
+		if(!pwd.equals(vo.getPwd())) {
+			request.setAttribute("msg", "비밀번호를 확인해보세요.");
+			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
+			return;
+		}
+		
+		// 로그인 성공시에 처리할 내용들을 기술한다.(1.주요필드를 세션에 저장, 2.오늘방문횟수처리, 3. 총방문수와 방문포인트처리, 4.쿠키에 아이디저장유무)
+		// 1.
+		HttpSession session = request.getSession();
+		session.setAttribute("sMid", mid);
+		session.setAttribute("sNickName", vo.getNickName());
+		session.setAttribute("sLevel", vo.getLevel());
+		
+		// 2~3.
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String strNow = sdf.format(now);
+		
+		// 오늘 처음 방문시는 오늘방문카운트(todayCnt)를 0으로 셋팅한다.
+		if(!vo.getLastDate().substring(0,10).equals(strNow)) {
+			dao.setTodayCntUpdate(mid);
+			vo.setTodayCnt(0);
+		}
+		
+		// 방문포인트를 최대 50점(5회방문)까지 줄수 있도록 처리....
+		int nowTodayPoint = 0;
+		if(vo.getTodayCnt() >= 5) {
+			nowTodayPoint = vo.getPoint();
 		}
 		else {
-			// 회원 인증 실패시 처리... 다시 로그인창으로 보내준다.
-			request.setAttribute("msg","로그인 실패!");
-			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
-			
+			nowTodayPoint = vo.getPoint() + 10;
 		}
+		dao.setMemberTotalUpdate(mid, nowTodayPoint);
+		
+		// 4.
+		Cookie cMid = new Cookie("cMid", mid);
+		if(idSave.equals("on")) {
+			cMid.setMaxAge(60*60*24*7);
+		}
+		else {
+			cMid.setMaxAge(0);
+		}
+		response.addCookie(cMid);
+		
+		request.setAttribute("msg", vo.getNickName() + "님 로그인되었습니다.");
+		request.setAttribute("url", request.getContextPath()+"/MemberMain.mem");
 	}
-	
+
 }
-
-
