@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import study2.uuid.UuidCommand;
 @SuppressWarnings("serial")
 @WebServlet("*.st")
 public class StudyController extends HttpServlet{
@@ -40,6 +42,35 @@ public class StudyController extends HttpServlet{
 			command.execute(request, response);
 			viewPage += "/uuid/uuidOk.jsp";
 		}
+		else if(com.equals("/AjaxTest1")){
+			viewPage += "/ajax/ajaxTest1.jsp";
+		}
+		else if(com.equals("/UserList")){
+			command = new UserListCommond();
+			command.execute(request, response);
+			viewPage += "/ajax2/userList.jsp";
+		}
+		else if(com.equals("/UserInput")){
+			command = new UserInputCommond();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/UserDelete")){
+			command = new UserDeleteCommond();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/UserSearch")){
+			command = new UserSearchCommond();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/UserUpdate")){
+			command = new UserUpdateCommond();
+			command.execute(request, response);
+			return;
+		}
+		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
