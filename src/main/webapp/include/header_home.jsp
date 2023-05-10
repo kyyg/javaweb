@@ -16,19 +16,19 @@
     <div class="carousel-item active">
       <img src="${ctp}/images/1.jpg" width="100%" height="200px">
       <div class="carousel-caption" style="width:100%">
-        <h4><b>i have been loved coding!</b></h4>
+        <h4><b>텍스트가 흘러간다. 호롤롤</b></h4>
       </div>   
     </div>
     <div class="carousel-item">
       <img src="${ctp}/images/2.jpg" width="100%" height="200px">
       <div class="carousel-caption" style="width:100%">
-        <h5><b>i was actually hating coding which was ignored my ask every time. </b></h5>
+        <h5><b>다 울었니? 그럼 과제를 하자. </b></h5>
       </div>   
     </div>
     <div class="carousel-item">
       <img src="${ctp}/images/3.jpg" width="100%" height="200px">
       <div class="carousel-caption" style="width:100%">
-        <h4><b>but i have to continue to learning and study...</b></h4>
+        <h4><b>일단 못하겠어도 앉아보자.</b></h4>
       </div>   
     </div>
   </div>
