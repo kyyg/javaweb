@@ -24,8 +24,11 @@ public class BoardDAO {
 		ArrayList<BoardVO> vos = new ArrayList<>();
 		try {
 			// sql = "select * from board order by idx desc limit ?,?";
-			sql = "select *,datediff(wDate, now()) as day_diff,timestampdiff(hour, wDate, now()) as hour_diff from"
-					+ " board order by idx desc limit ?,?";
+//			sql = "select *,datediff(wDate, now()) as day_diff,timestampdiff(hour, wDate, now()) as hour_diff from"
+//					+ " board order by idx desc limit ?,?";
+			sql = "select *, datediff(wDate, now()) as day_diff, timestampdiff(hour, wDate, now()) as hour_diff, "
+					+ "(select count(*) from boardReply where boardIdx=b.idx) as replyCount "
+					+ "from board b order by idx desc limit ?,?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startIndexNo);
 			pstmt.setInt(2, pageSize);
@@ -48,6 +51,8 @@ public class BoardDAO {
 				
 				vo.setHour_diff(rs.getInt("hour_diff"));
 				vo.setDay_diff(rs.getInt("day_diff"));
+				
+				vo.setreplyCount(rs.getInt("replyCount"));
 				
 				vos.add(vo);
 			}
@@ -130,7 +135,6 @@ public class BoardDAO {
 		return vo;
 	}
 
-	// 조회수 증가
 	public void setReadNumUpdate(int idx) {
 		try {
 			sql = "update board set readNum = readNum + 1 where idx = ?";
@@ -173,7 +177,6 @@ public class BoardDAO {
 		}
 	}
 
-	// 이전글, 다음글 처리
 	public BoardVO getPreNextSearch(int idx, String str) {
 		vo = new BoardVO();
 		try {
@@ -328,21 +331,20 @@ public class BoardDAO {
 		return replyVos;
 	}
 
-	
 	// 댓글 삭제하기
-	public String setBoardReplyDelete(int Idx) {
+	public String setReplyDeleteOk(int replyIdx) {
 		String res = "0";
 		try {
-			sql = "delete from BoardReply where idx = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, Idx);
-			pstmt.executeUpdate();
-			res = "1";
-		} catch (SQLException e) {
-			System.out.println("SQL 에러 : " + e.getMessage());
-		} finally {
-			getConn.pstmtClose();
-		}
+      sql = "delete from boardReply where idx=?";
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, replyIdx);
+      pstmt.executeUpdate();
+      res = "1"; 
+    } catch (SQLException e) {
+       System.out.println("SQL 오류 : " + e.getMessage());
+    } finally {
+       getConn.pstmtClose();
+    }
 		return res;
 	}
 	

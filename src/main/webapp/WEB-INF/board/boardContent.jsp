@@ -120,9 +120,9 @@
     }
     
     function replyDelete(idx){
-	   /* let ans = confirm‎("댓글을 삭제하시겠습니까?");
-       if(ans) return false; */
-   
+    	let ans = confirm("댓글을 삭제하시겠습니까?");
+      if(!ans) return false; 
+    	  
       $.ajax({
           type: "post",
           url : "${ctp}/BoardReplyDelete.bo",

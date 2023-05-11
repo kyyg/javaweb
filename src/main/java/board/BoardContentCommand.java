@@ -35,8 +35,6 @@ public class BoardContentCommand implements BoardInterface {
 		}
 		session.setAttribute("sContentIdx", contentIdx);
 		
-		
-		
 		// 현재 선택된 게시글(idx)의 전체내용물을 가져오기
 		BoardVO vo = dao.getBoardContent(idx);
 		
@@ -52,9 +50,6 @@ public class BoardContentCommand implements BoardInterface {
 		BoardVO nextVo = dao.getPreNextSearch(idx, "nextVo");
 		request.setAttribute("preVo", preVo);
 		request.setAttribute("nextVo", nextVo);
-		
-		
-		
 		
   	// 해당글에 좋아요 버튼을 클릭하였었다면 '좋아요세션'에 아이디를 저장시켜두었기에 찾아서 있다면 sSw값을 1로 보내어 하트색을 빨강색으로 변경유지하게한다.
 		ArrayList<String> goodIdx = (ArrayList) session.getAttribute("sGoodIdx");
