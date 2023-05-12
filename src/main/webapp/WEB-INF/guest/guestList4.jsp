@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>guestList(블록페이징처리).jsp</title>
+  <title>guestList4(블록페이징처리).jsp</title>
   <jsp:include page="/include/bs4.jsp" />
   <style>
     th {

@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import guest.GuestVO;
-
 public class LoginDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -149,7 +147,7 @@ public class LoginDAO {
 		}
 	}
 
-	// 전체회원조회
+	// 전체회원조회(페이징 처리)
 	public ArrayList<LoginVO> getLoginList(int startIndexNo, int pageSize) {
 		ArrayList<LoginVO> vos = new ArrayList<>();
 		try {
@@ -237,28 +235,6 @@ public class LoginDAO {
 		return res;
 	}
 
-	// 아이디와 성명을 받아 일치하면 비밀번호 알려주기
-	public LoginVO getFindPwd(String mid, String name) {
-		vo = new LoginVO();
-		try {
-		sql="select * from login where mid=? and name=?";
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, mid);
-		pstmt.setString(2, name);
-		rs = pstmt.executeQuery();
-			if(rs.next()) {
-				vo.setMid(rs.getString("mid"));
-				vo.setPwd(rs.getString("pwd"));
-				vo.setName(rs.getString("name"));
-			}
-		} catch (SQLException e) {
-			System.out.println("SQL 오류 : " + e.getMessage());
-		} finally {
-			rsClose();
-		}
-		return vo;
-	}
-
 	// 총 레코드 건수 구하기
 	public int getTotRecCnt() {
 		int totRecCnt = 0;
@@ -276,5 +252,38 @@ public class LoginDAO {
 		return totRecCnt;
 	}
 
+	// 비밀번호 암호화하기. hashTable에서 pwdKey에 해당하는 pwdValue을 찾아서 돌려준다. 
+	public long getHashTableSearch(long pwdKey) {
+		long pwdValue = 0;
+		try {
+			sql = "select * from hashTable where pwdKey = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, pwdKey);
+			rs = pstmt.executeQuery();
+			rs.next();
+			pwdValue = rs.getLong("pwdValue");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return pwdValue;
+	}
 
+	// 해시테이블에 저장된 해시키의 개수 가져오기
+	public int getHashKeyCount() {
+		int hashKeyCount = 0;
+		try {
+			sql = "select count(*) as cnt from hashTable";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			hashKeyCount = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return hashKeyCount;
+	}
 }

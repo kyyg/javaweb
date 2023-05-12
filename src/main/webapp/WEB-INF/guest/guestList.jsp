@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>guestList(블록페이징처리-한페이지분량조정하기-부트스트랩 페이지네이션 적용).jsp</title>
+  <title>guestList(블록페이징처리-한페이지분량조정하기-부트스트랩페이지네이션적용).jsp</title>
   <jsp:include page="/include/bs4.jsp" />
   <style>
     th {
@@ -24,11 +24,10 @@
     	location.href = "${ctp}/GuestList.gu?pag=${pag}&pageSize="+pageSize;
     }
     
-    function delCheck(idx){
+    function delCheck(idx) {
     	let ans = confirm("현재 게시물을 삭제하시겠습니까?");
-    	if(ans) location.href="${ctp}/GuestDelete.gu?idx="+idx;
+    	if(ans) location.href = "${ctp}/GuestDelete.gu?idx="+idx;
     }
-    
   </script>
 </head>
 <body>
@@ -74,20 +73,20 @@
 	  <table class="table table-borderless mb-0 mt-0">
 	    <tr>
 	      <td>
-	      번호 : ${curScrStartNo}
-	  		<c:if test="${sAdmin == 'adminOk'}">
-	     	 <a href="javascript:delCheck(${vo.idx})" class="btn btn-danger btn-sm">삭제</a>
-	      </c:if>  
-	      </td>      
+	        번호 : ${curScrStartNo}
+	        <c:if test="${sAdmin == 'adminOk'}">
+	        	<a href="javascript:delCheck(${vo.idx})" class="btn btn-danger btn-sm">삭제</a>
+	        </c:if>
+	      </td>
 	      <td style="text-align:right;">방문IP : ${vo.hostIp}</td>
 	    </tr>
 	  </table>
 	  <table class="table table-bordered mt-0">
 	    <tr>
 	      <th style="20%">성명</th>
-	      <td style="30%">${vo.name}</td>
+	      <td style="25%">${vo.name}</td>
 	      <th style="20%">방문일자</th>
-	      <td style="30%">${fn:substring(vo.visitDate,0,19)}</td>
+	      <td style="35%">${fn:substring(vo.visitDate,0,19)}</td>
 	    </tr>
 	    <tr>
 	      <th>메일주소</th>
@@ -108,12 +107,13 @@
 	      <td colspan="3" style="height:150px">${fn:replace(vo.content, newLine, '<br/>')}</td>
 	    </tr>
 	  </table>
-	  <c:set var="curScrStartNo" value="${curScrStartNo - 1}" />
+	  <br/>
+	  <c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
   </c:forEach>
   <br/>			<!-- 4페이지(1블록)에서 0블록으로 가게되면 현재페이지는 1페이지가 블록의 시작페이지가 된다. -->
   <!-- 첫페이지 / 이전블록 / 1(4) 2(5) 3 / 다음블록 / 마지막페이지 -->
   <div class="text-center">
-  	<ul class="pagination justify-content-center">
+	  <ul class="pagination justify-content-center">
 	    <c:if test="${pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList.gu?pageSize=${pageSize}&pag=1">첫페이지</a></li></c:if>
 	    <c:if test="${curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList.gu?pageSize=${pageSize}&pag=${(curBlock-1)*blockSize + 1}">이전블록</a></li></c:if>
 	    <c:forEach var="i" begin="${curBlock*blockSize + 1}" end="${curBlock*blockSize + blockSize}" varStatus="st">
@@ -122,7 +122,7 @@
 	    </c:forEach>
 	    <c:if test="${curBlock < lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList.gu?pageSize=${pageSize}&pag=${(curBlock+1)*blockSize + 1}">다음블록</a></li></c:if>
 	    <c:if test="${pag < totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList.gu?pageSize=${pageSize}&pag=${totPage}">마지막페이지</a></li></c:if>
- 	 </ul>
+	  </ul>
   </div>
 </div>
 <p><br/></p>

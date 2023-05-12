@@ -10,16 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-//@WebServlet("/mapping/Test5.do")
+// @WebServlet("/mapping/Test5.do")
 @WebServlet("*.do")
 public class Test5Controller extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
 		String uri = request.getRequestURI();
 		
-		String com = uri.substring(uri.lastIndexOf("/"),uri.lastIndexOf("."));
-		//System.out.println("com : " + com);
+		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
+		// System.out.println("com : " + com);
 		
 		String viewPage = "/WEB-INF/study2/mapping";
 		
@@ -42,16 +41,16 @@ public class Test5Controller extends HttpServlet {
 			
 			Test5Service t5 = new Test5Service();
 			int res = t5.test5Calc(su1, su2, op);
+			
 			request.setAttribute("su1", su1);
 			request.setAttribute("su2", su2);
 			request.setAttribute("op", op);
 			request.setAttribute("res", res);
-			
+
 			viewPage += "/test5_5.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
-		
 	}
 }

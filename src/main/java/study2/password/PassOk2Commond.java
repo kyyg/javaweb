@@ -1,4 +1,4 @@
-package study2;
+package study2.password;
 
 import java.io.IOException;
 
@@ -7,13 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import conn.SecurityUtil;
+import study2.StudyInterface;
 
-public class PassOk2Command implements StudyInterface {
+public class PassOk2Commond implements StudyInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String mid = request.getParameter("mid") == null ? "" : request.getParameter("mid");
-		String pwd = request.getParameter("pwd") == null ? "" : request.getParameter("pwd").toUpperCase();
+		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
+		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd").toUpperCase();
 		
 		SecurityUtil security = new SecurityUtil();
 		String shaPwd = security.encryptSHA256(pwd);

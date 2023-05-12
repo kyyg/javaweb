@@ -1,6 +1,7 @@
 package study2.login;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ public class LoginOkCommand implements LoginInterface {
 		LoginDAO dao = new LoginDAO();
 		
 		LoginVO vo = dao.getLoginCheck(mid, pwd);
-				
+		
 		if(vo.getName() != null) {
 			// 회원 인증 성공시 처리...
 			// 회원인증후 처리(1.자주사용하는자료를 세션에 저장(아이디,성명,닉네임),  2.쿠키에 아이디 저장또는 제거하기)
@@ -81,16 +82,14 @@ public class LoginOkCommand implements LoginInterface {
 			
 			
 			// 정상 로그인Ok이후에 모든 처리가 끝나면 memberMain.jsp로 보내준다.
-			request.setAttribute("msg", mid+"님 로그인 되었습니다.");
+			request.setAttribute("msg", mid + "님 로그인 되었습니다.");
 			request.setAttribute("url", request.getContextPath()+"/MemberMain.re");
 		}
 		else {
 			// 회원 인증 실패시 처리... 다시 로그인창으로 보내준다.
-			request.setAttribute("msg","로그인 실패!");
+			request.setAttribute("msg", "로그인 실패~~~");
 			request.setAttribute("url", request.getContextPath()+"/Login.re");
-			
 		}
-
 	}
 
 }

@@ -122,17 +122,19 @@ public class UserDAO {
 		return vo;
 	}
 
-	public int setUserUpdate(int idx, String mid, String name, int age, String address) {
-		int res=0;
+	// user 수정하기
+	public String setUserUpdate(UserVO vo) {
+		String res = "0";
 		try {
-			sql = "update user set mid=?, name=?, name=?, age=? where idx=?";
+			sql = "update user set mid=?,name=?,age=?,address=? where idx=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mid);
-			pstmt.setString(2, name);
-			pstmt.setInt(3, age);
-			pstmt.setInt(4, idx);
+			pstmt.setString(1, vo.getMid());
+			pstmt.setString(2, vo.getName());
+			pstmt.setInt(3, vo.getAge());
+			pstmt.setString(4, vo.getAddress());
+			pstmt.setInt(5, vo.getIdx());
 			pstmt.executeUpdate();
-			res=1;
+			res = "1";
 		} catch (SQLException e) {
 			System.out.println("sql오류 : " + e.getMessage());
 		}	finally {
@@ -140,6 +142,5 @@ public class UserDAO {
 		}
 		return res;
 	}
-
 	
 }

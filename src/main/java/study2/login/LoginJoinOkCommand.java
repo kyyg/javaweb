@@ -6,6 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import study.database.LoginDAO;
+import study.database.LoginVO;
+
 public class LoginJoinOkCommand implements LoginInterface {
 
 	@Override
@@ -24,8 +27,7 @@ public class LoginJoinOkCommand implements LoginInterface {
 		
 		LoginVO vo2 = dao.getMidCheck(mid);
 		
-		
-		String msg = "", url=""; 
+		String msg = "", url = "";
 		if(vo2.getMid() != null) {
 			// 아이디가 중복되었음.
 			msg = "아이디가 중복되었습니다.";
@@ -34,9 +36,10 @@ public class LoginJoinOkCommand implements LoginInterface {
 		else {
 			// 아이디가 중복되어 있지 않기에 DB에 정보를 저장시킨다.
 			dao.setJoinOk(vo);
-			msg = "회원가입 되었습니다.";
+			msg = "회원 가입되었습니다.";
 			url = "/Login.re";
 		}
+		
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", request.getContextPath()+url);
 	}

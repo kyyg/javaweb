@@ -9,28 +9,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import study2.uuid.UuidCommand;
+import study2.ajax2.UserDeleteCommond;
+import study2.ajax2.UserInputCommond;
+import study2.ajax2.UserListCommond;
+import study2.ajax2.UserSearchCommond;
+import study2.ajax2.UserUpdateCommond;
+import study2.password.PassOk1Commond;
+import study2.password.PassOk2Commond;
+import study2.uuid.UuidCommond;
+
 @SuppressWarnings("serial")
 @WebServlet("*.st")
-public class StudyController extends HttpServlet{
+public class StudyController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		StudyInterface command = null; 
+		StudyInterface command = null;
 		String viewPage = "/WEB-INF/study2";
-
+		
 		String uri = request.getRequestURI();
-		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
+		String com = uri.substring(uri.lastIndexOf("/"),uri.lastIndexOf("."));
 		
 		if(com.equals("/Password")) {
-		 viewPage += "/password/password.jsp";
+			viewPage += "/password/password.jsp";
 		}
 		else if(com.equals("/PassOk1")){
-			command = new PassOk1Command();
+			command = new PassOk1Commond();
 			command.execute(request, response);
 			viewPage += "/password/password.jsp";
 		}
 		else if(com.equals("/PassOk2")){
-			command = new PassOk2Command();
+			command = new PassOk2Commond();
 			command.execute(request, response);
 			viewPage += "/password/password2.jsp";
 		}
@@ -38,7 +46,7 @@ public class StudyController extends HttpServlet{
 			viewPage += "/uuid/uuidForm.jsp";
 		}
 		else if(com.equals("/Uuid")){
-			command = new UuidCommand();
+			command = new UuidCommond();
 			command.execute(request, response);
 			viewPage += "/uuid/uuidOk.jsp";
 		}
@@ -70,7 +78,6 @@ public class StudyController extends HttpServlet{
 			command.execute(request, response);
 			return;
 		}
-		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

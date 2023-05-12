@@ -116,11 +116,11 @@ public class GuestDAO {
 		return totRecCnt;
 	}
 
-	// 방명록 게시글 삭제처리
+	// 방명록의 자료 삭제처리
 	public int setGuestDelete(int idx) {
 		int res = 0;
 		try {
-			sql="delete from guest where idx=?";
+			sql = "delete from guest where idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();

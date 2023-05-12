@@ -6,6 +6,18 @@
 	pageContext.setAttribute("level", level);
 %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+
+<script>
+	function deleteAsk(){
+		let ans = confirm("회원 탈퇴를 하시겠습니까?");
+		if(ans){
+			let ans2 = confirm("탈퇴 후 같은 아이디로 1개월만 재가입 하실 수 없습니다. \n그래도 탈퇴 하시겠습니까?");
+			if(ans2) location.href= "${ctp}/MemberDeleteAsk.mem";
+		} 
+		
+	}
+</script>
+
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 <!-- <a class="navbar-brand" href="http://localhost:9090/javaweb/">Home</a> -->
 <a class="navbar-brand" href="http://192.168.50.91:9090/javaweb/">Home</a>
@@ -52,24 +64,25 @@
 	      </li>   
 	      <li>
 				  <div class="dropdown">
-				    <button type="button" class="btn text-light dropdown-toggle" data-toggle="dropdown">Information</button>
+				    <button type="button" class="btn text-light dropdown-toggle" data-toggle="dropdown">MyPage</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="${ctp}/MemberMain.mem">회원 메인방</a>
-				      <a class="dropdown-item" href="#">회원정보수정</a>
-				      <a class="dropdown-item" href="#">회원리스트</a>
-				      <a class="dropdown-item" href="#">회원탈퇴</a>
+				      <a class="dropdown-item" href="${ctp}/MemberMain.mem">회원메인방</a>
+				      <a class="dropdown-item" href="${ctp}/MemberPwdUpdate.mem">회원비밀번호변경</a>
+				      <a class="dropdown-item" href="${ctp}/MemberPwdCheckForm.mem">회원정보수정</a>
+				      <c:if test="${sLevel != 1}"><a class="dropdown-item" href="${ctp}/MemberList.mem">회원리스트</a></c:if>
+				      <a class="dropdown-item" href="javascript:deleteAsk()">회원탈퇴</a>
+				      <c:if test="${sLevel == 0}"><a class="dropdown-item" href="${ctp}/AdminMain.ad">관리자메뉴</a></c:if>
 				    </div>
 				  </div>  
-	      </li> 
+	      </li>
       </c:if>
-        
       <li class="nav-item">
-      <c:if test="${level > 4}"><a class="nav-link" href="${pageContext.request.contextPath}/MemberLogin.mem">Login</a></c:if>
-      <c:if test="${level <= 4}"><a class="nav-link" href="${pageContext.request.contextPath}/MemberLogout.mem">Logout</a></c:if>
-      </li>
+        <c:if test="${level > 4}"><a class="nav-link" href="${pageContext.request.contextPath}/MemberLogin.mem">Login</a></c:if>
+        <c:if test="${level <= 4}"><a class="nav-link" href="${pageContext.request.contextPath}/MemberLogout.mem">Logout</a></c:if>
+      </li>  
       <li class="nav-item">
-       <a class="nav-link" href="${pageContext.request.contextPath}/MemberJoin.mem">Join</a>
-      </li>
+        <c:if test="${level > 4}"><a class="nav-link" href="${pageContext.request.contextPath}/MemberJoin.mem">Join</a></c:if>
+      </li>  
     </ul>
   </div>
 </nav>

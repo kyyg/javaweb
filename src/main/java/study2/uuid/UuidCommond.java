@@ -1,24 +1,21 @@
-package study2;
+package study2.uuid;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import study2.ajax2.UserDAO;
-import study2.ajax2.UserVO;
+import study2.StudyInterface;
 
-public class UserListCommond implements StudyInterface {
+public class UuidCommond implements StudyInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UserDAO dao = new UserDAO();
+		UUID uid = UUID.randomUUID();
 		
-		ArrayList<UserVO> vos = dao.getUserList();
-		
-		request.setAttribute("vos", vos);
+		request.setAttribute("uid", uid);
 	}
 
 }

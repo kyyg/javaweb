@@ -16,13 +16,12 @@ import study2.mapping.Test5Service;
 public class Test5miController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
 		Test5miInterface command = null;
 		String viewPage = "/WEB-INF/study2/mapping2";
 		
 		String uri = request.getRequestURI();
-		String com = uri.substring(uri.lastIndexOf("/"),uri.lastIndexOf("."));
-
+		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
+		
 		
 		if(com.equals("/Test5")) {
 			viewPage += "/test5.jsp";
@@ -48,6 +47,5 @@ public class Test5miController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
-		
 	}
 }

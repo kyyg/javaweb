@@ -30,7 +30,6 @@ public class AjaxTest3 extends HttpServlet {
 //		else {
 //			str = vo.getMid() + "/" + vo.getName() + "/" + vo.getNickName() + "/" + vo.getGender() + "/" + vo.getPoint();
 //		}
-		
 //		response.getWriter().write(str);
 		response.getWriter().write(vo.toString());
 	}
