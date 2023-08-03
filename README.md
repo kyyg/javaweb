@@ -37,5 +37,5 @@ public class Test(){
 
 💙
 
-![사진] (https://github.com/kyyg/javaweb/blob/master/src/main/webapp/images/1.jpg)
+![사진](https://github.com/kyyg/javaweb/blob/master/src/main/webapp/images/1.jpg)
 
